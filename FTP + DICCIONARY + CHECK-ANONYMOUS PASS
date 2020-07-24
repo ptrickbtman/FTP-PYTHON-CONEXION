@@ -1,0 +1,60 @@
+from pathlib import Path
+import socket #validar DNS
+import ftplib # ftp
+
+fileName = "lemarios/lemario-general-del-espanol.txt"
+
+def main():
+    cantidadUrls=0
+    archivo = open(fileName, "r")
+    
+    for linea in archivo.readlines():
+        url= "www." + linea + ".com"
+        linea += ".com"
+        url = linea.replace('\n', '').replace('\r', '')
+      
+        if validarDns(str(url)):
+            cantidadUrls +=1
+            print("dns existed: ", url )
+            if anoncheck(url):
+                print("Ftp Free: YES")
+            else:
+                print("Ftp Free: NOT")
+                
+
+
+
+def anoncheck(h):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    url = "www." + h
+    ip =  socket.gethostbyname(url)	
+    try:
+        ftp=ftplib.FTP(ip)
+        ftp.login('anonymous','anonymous')
+        ftp.quit()
+        sock.close()
+        return True    
+    except Exception as e:
+        return False
+
+
+
+
+def validarDns(h):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    url = "www." + h
+   # print("Escanenado: " , url)
+    try:
+        resultado = sock.connect_ex((url,80))
+        if resultado == 0:
+            sock.close()
+            return True
+        else:
+            sock.close()
+            return False
+            
+    except Exception as e:
+        sock.close()
+        return False
+
+main()
