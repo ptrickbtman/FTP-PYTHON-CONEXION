@@ -1,0 +1,31 @@
+
+import socket
+from socket import *
+from random import randint, uniform,random
+
+#agregar time out al buscar el puerto
+
+def crearIp():
+    ip = "";
+    ip += str(randint(0,200))
+    ip+="."
+    ip += str(randint(0,150))
+    ip+="."
+    ip += str(randint(0,100))
+    ip+="."
+    ip += str(randint(0,50))
+    return ip;
+
+
+while 1:
+    ip=  crearIp()
+    cliente = socket(AF_INET, SOCK_STREAM)
+    print("Escanenado -> ", ip, "... ");
+    
+    conexion = cliente.connect_ex((ip,23))
+    if (conexion == 0):
+        print ("Disponible" , ip)
+        cliente.close()
+    else:
+        cliente.close()
+        
