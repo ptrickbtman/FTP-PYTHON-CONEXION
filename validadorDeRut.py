@@ -11,8 +11,10 @@ def digito_verificador(rut):
 def validarRut(rut):
     rut = rut.replace(".", "")
     rut = rut.split("-")
-    print(digito_verificador(rut[0]) , rut[1] )
+    #print(digito_verificador(rut[0]) , rut[1] )
     if (str(digito_verificador(rut[0]))== rut[1]):
+        return True;
+    if (rut[1].title() == "K" and digito_verificador(rut[0])== 10 ):
         return True;
         
 if( validarRut("xx.xxx.xxx-x")):
