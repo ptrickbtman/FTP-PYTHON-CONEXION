@@ -1,11 +1,15 @@
-
 import socket
 from socket import *
 from random import randint, uniform,random
 
-#agregar time out al buscar el puerto
 
-def crearIp():
+#agregar ip a txt
+def agregar(ip):
+    destFile = r"ips.txt"
+    with open(destFile, 'a') as f:
+        f.write(str(ip+"\r\n"))
+
+def randomIp():
     ip = "";
     ip += str(randint(0,200))
     ip+="."
@@ -17,15 +21,18 @@ def crearIp():
     return ip;
 
 
+#agregar time out al socket
 while 1:
-    ip=  crearIp()
     cliente = socket(AF_INET, SOCK_STREAM)
+    cliente.settimeout(3.5)
+    ip = randomIp()
     print("Escanenado -> ", ip, "... ");
-    
     conexion = cliente.connect_ex((ip,23))
     if (conexion == 0):
         print ("Disponible" , ip)
+        agregar(ip)
         cliente.close()
     else:
         cliente.close()
         
+
